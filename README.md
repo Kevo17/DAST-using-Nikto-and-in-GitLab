@@ -21,35 +21,105 @@ During this hands-on lab, participants will gain practical experience in using N
 
 <h2>Program walk-through:</h2>
 
+Let’s install Nikto to perform Dynamic Analysis: <br/>
+```
+apt install -y libnet-ssleay-perl
+git clone https://github.com/sullo/nikto
+cd nikto/program
+```
+<br/>
+ 
 <p align="center">
-Launch the utility: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Select the disk:  <br/>
-<img src="https://i.imgur.com/tcTyMUE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Enter the number of passes: <br/>
-<img src="https://i.imgur.com/nCIbXbg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Confirm your selection:  <br/>
-<img src="https://i.imgur.com/cdFHBiU.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Wait for process to complete (may take some time):  <br/>
-<img src="https://i.imgur.com/JL945Ga.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Sanitization complete:  <br/>
-<img src="https://i.imgur.com/K71yaM2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Observe the wiped disk:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/WFKFIJw.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
 
+<br />
+<br />
+
+We have successfully installed the Nikto scanner. Let’s explore the functionality it provides us: <br/>
+```
+./nikto.pl -Help
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/yasoqoP.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Let’s run the Nikto with the following options: <br/>
+```
+./nikto.pl -output nikto_output.xml -h prod-rcgsg0ei
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/0QLRmSz.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Now, executing cat command on the output file will show the nikto result in XML format: <br/>
+```
+cat nikto_output.xml
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/2amTZ3m.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+List available plugins and run the headers plugin to perform a scan against prod-rcgsg0ei in Nikto: <br/>
+```
+./nikto.pl -list-plugins
+./nikto.pl -h prod-rcgsg0ei -Plugins headers
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/n7yrRGe.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Configure Nikto (nikto.conf) in /nikto/program/ directory to remove the ports that would never be scanned and save output to CSV format: <br/>
+```
+cat >/nikto/program/nikto.conf<<EOF
+SKIPPORTS=21 22 111
+CLIOPTS=-output result.csv -Format csv
+EOF
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/loroeK3.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Re-run the nikto command: <br/>
+```
+./nikto.pl -h prod-rcgsg0ei -config nikto.conf
+```
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/bxyzfrj.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+<img src="https://i.imgur.com/we1FJqK.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+<img src="https://i.imgur.com/9fkl8Uv.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 <!--
  ```diff
 - text in red
