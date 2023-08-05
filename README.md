@@ -118,8 +118,21 @@ Re-run the nikto command: <br/>
 <br />
 <br />
 
+Let’s run the scan in GitLab in the YAML configuration file: <br/>
+```
+- docker pull hysnsec/nikto
+```
+```
+- docker run --rm -v $(pwd):/tmp hysnsec/nikto -h <YOUR HOST URL> -o /tmp/nikto-output.xml
+```
+<p align="center">
 <img src="https://i.imgur.com/we1FJqK.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+Here is the result of this job: <br/>
+<p align="center">
 <img src="https://i.imgur.com/9fkl8Uv.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
 <!--
  ```diff
 - text in red
